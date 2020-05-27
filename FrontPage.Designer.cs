@@ -94,6 +94,7 @@
             this.FPConsole.Name = "FPConsole";
             this.FPConsole.Size = new System.Drawing.Size(233, 303);
             this.FPConsole.TabIndex = 7;
+            this.FPConsole.TextChanged += new System.EventHandler(this.FPConsole_TextChanged);
             // 
             // FPPassBox
             // 
