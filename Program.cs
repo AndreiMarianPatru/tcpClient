@@ -8,6 +8,7 @@ namespace tcpClient
 {
     static class Program
     {
+        public static chat mchat;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +17,7 @@ namespace tcpClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrontPage());
+            Application.Run(mchat=new chat());
         }
     }
 }

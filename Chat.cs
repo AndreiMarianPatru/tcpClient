@@ -10,45 +10,78 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace tcpClient
 {
-    public partial class Chat : Form
+    public partial class chat : Form
     {
-        public Chat()
+        public chat()
         {
             InitializeComponent();
-           // RequestLoop();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
+        private static readonly Socket ClientSocket = new Socket
+            (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        }
-        private  void RequestLoop()
-        {
-            Console.WriteLine(@"<Type ""exit"" to properly disconnect client>");
+        private const int PORT = 100;
 
-            while (true)
+        //static void Main()
+        //{
+        //    //Console.Title = "Client";
+        //    ConnectToServer();
+        //    RequestLoop();
+        //    Exit();
+        //}
+
+        private static void ConnectToServer()
+        {
+            int attempts = 0;
+
+            while (!ClientSocket.Connected)
             {
+                try
+                {
+                    attempts++;
+                    //Console.WriteLine("Connection attempt " + attempts);
+                    // Change IPAddress.Loopback to a remote IP to connect to a remote host.
+                    ClientSocket.Connect(IPAddress.Loopback, PORT);
+                }
+                catch (SocketException)
+                {
+                    //Console.Clear();
+                }
+            }
+
+            //Console.Clear();
+            //Console.WriteLine("Connected");
+        }
+
+        private static void RequestLoop()
+        {
+            //Console.WriteLine(@"<Type ""exit"" to properly disconnect client>");
+
+            
                 SendRequest();
                 ReceiveResponse();
-            }
-        }
-        private  void Exit()
-        {
             
-            
-            SendString("exit"); // Tell the server we are exiting
-            tcpClient.FrontPage.ClientSocket.Shutdown(SocketShutdown.Both);
-            tcpClient.FrontPage.ClientSocket.Close();
-            Environment.Exit(0);
         }
 
-        private  void SendRequest()
+        /// <summary>
+        /// Close socket and exit program.
+        /// </summary>
+        private static void Exit()
+        {
+            SendString("exit"); // Tell the server we are exiting
+            ClientSocket.Shutdown(SocketShutdown.Both);
+            ClientSocket.Close();
+            Environment.Exit(0);
+        }
+      
+        private static void SendRequest()
         {
             //Console.Write("Send a request: ");
-            string request = textBox1.Text;
+            string request = Program.mchat.tChat.Text;
             SendString(request);
 
             if (request.ToLower() == "exit")
@@ -60,26 +93,50 @@ namespace tcpClient
         /// <summary>
         /// Sends a string to the server with ASCII encoding.
         /// </summary>
-        private  void SendString(string text)
+        private static void SendString(string text)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(text);
-            tcpClient.FrontPage.ClientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+            ClientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
         }
 
-        private  void ReceiveResponse()
+        private static void ReceiveResponse()
         {
             var buffer = new byte[2048];
-            int received = tcpClient.FrontPage.ClientSocket.Receive(buffer, SocketFlags.None);
+            int received = ClientSocket.Receive(buffer, SocketFlags.None);
             if (received == 0) return;
             var data = new byte[received];
             Array.Copy(buffer, data, received);
             string text = Encoding.ASCII.GetString(data);
-            Console.WriteLine(text);
+            updateUI(text);
+        }
+        private void bSend_Click(object sender, EventArgs e)
+        {
+            RequestLoop();
+            Program.mchat.tChat.Text = "";
         }
 
-        private void bSend_Click(object sender, EventArgs e)
+        private void bConnect_Click(object sender, EventArgs e)
+        {
+            ConnectToServer();
+            
+            //Exit();
+        }
+
+        private void tChat_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private static void updateUI(string text)
+        {
+            Program.mchat.tConsole.AppendText(text);
+            Program.mchat.tConsole.AppendText(Environment.NewLine);
+        }
+
+        private void tConsole_TextChanged(object sender, EventArgs e)
         {
 
         }
     }
+
+   
 }

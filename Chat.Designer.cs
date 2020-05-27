@@ -1,6 +1,6 @@
 ﻿namespace tcpClient
 {
-    partial class Chat
+    partial class chat
     {
         /// <summary>
         /// Required designer variable.
@@ -29,37 +29,61 @@
         private void InitializeComponent()
         {
             this.bSend = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tConsole = new System.Windows.Forms.TextBox();
+            this.tChat = new System.Windows.Forms.TextBox();
+            this.bConnect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bSend
             // 
-            this.bSend.Location = new System.Drawing.Point(635, 342);
+            this.bSend.Location = new System.Drawing.Point(639, 344);
             this.bSend.Name = "bSend";
-            this.bSend.Size = new System.Drawing.Size(130, 53);
+            this.bSend.Size = new System.Drawing.Size(149, 68);
             this.bSend.TabIndex = 0;
-            this.bSend.Text = "Send";
+            this.bSend.Text = "Send!";
             this.bSend.UseVisualStyleBackColor = true;
             this.bSend.Click += new System.EventHandler(this.bSend_Click);
             // 
-            // textBox1
+            // tConsole
             // 
-            this.textBox1.Location = new System.Drawing.Point(47, 50);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(564, 345);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.tConsole.Location = new System.Drawing.Point(27, 33);
+            this.tConsole.Multiline = true;
+            this.tConsole.Name = "tConsole";
+            this.tConsole.Size = new System.Drawing.Size(585, 310);
+            this.tConsole.TabIndex = 1;
+            this.tConsole.TabStop = false;
+            this.tConsole.TextChanged += new System.EventHandler(this.tConsole_TextChanged);
             // 
-            // Chat
+            // tChat
+            // 
+            this.tChat.Location = new System.Drawing.Point(27, 350);
+            this.tChat.Multiline = true;
+            this.tChat.Name = "tChat";
+            this.tChat.Size = new System.Drawing.Size(585, 62);
+            this.tChat.TabIndex = 2;
+            this.tChat.TextChanged += new System.EventHandler(this.tChat_TextChanged);
+            // 
+            // bConnect
+            // 
+            this.bConnect.Location = new System.Drawing.Point(639, 35);
+            this.bConnect.Name = "bConnect";
+            this.bConnect.Size = new System.Drawing.Size(149, 48);
+            this.bConnect.TabIndex = 3;
+            this.bConnect.Text = "Connect to Server";
+            this.bConnect.UseVisualStyleBackColor = true;
+            this.bConnect.Click += new System.EventHandler(this.bConnect_Click);
+            // 
+            // chat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.bConnect);
+            this.Controls.Add(this.tChat);
+            this.Controls.Add(this.tConsole);
             this.Controls.Add(this.bSend);
-            this.Name = "Chat";
-            this.Text = "Form1";
+            this.Name = "chat";
+            this.Text = "chat";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,7 +92,8 @@
         #endregion
 
         private System.Windows.Forms.Button bSend;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tConsole;
+        private System.Windows.Forms.TextBox tChat;
+        private System.Windows.Forms.Button bConnect;
     }
 }
-
