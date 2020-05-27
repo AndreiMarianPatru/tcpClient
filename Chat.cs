@@ -28,7 +28,7 @@ namespace tcpClient
 
         //static void Main()
         //{
-        //    //Console.Title = "Client";
+        //    updateUI.Title = "Client";
         //    ConnectToServer();
         //    RequestLoop();
         //    Exit();
@@ -43,27 +43,40 @@ namespace tcpClient
                 try
                 {
                     attempts++;
-                    //Console.WriteLine("Connection attempt " + attempts);
+                    updateUI("Connection attempt " + attempts);
                     // Change IPAddress.Loopback to a remote IP to connect to a remote host.
                     ClientSocket.Connect(IPAddress.Loopback, PORT);
                 }
                 catch (SocketException)
                 {
-                    //Console.Clear();
+                    updateUI("Could not connect. Retrying");
+                    if (attempts == 3)
+                    {
+                        updateUI("Connection failed!");
+                        return;
+                    }
                 }
             }
 
-            //Console.Clear();
-            //Console.WriteLine("Connected");
+            updateUI("");
+
+            updateUI("Connected");
         }
 
         private static void RequestLoop()
         {
-            //Console.WriteLine(@"<Type ""exit"" to properly disconnect client>");
+           // updateUI(@"<Type ""exit"" to properly disconnect client>");
 
-            
+            if (ClientSocket.Connected)
+            {
                 SendRequest();
                 ReceiveResponse();
+            }
+            else
+            {
+                updateUI("Not connected to the server");
+            }
+               
             
         }
 
@@ -80,7 +93,7 @@ namespace tcpClient
       
         private static void SendRequest()
         {
-            //Console.Write("Send a request: ");
+            updateUI("Request sent!");
             string request = Program.mchat.tChat.Text;
             SendString(request);
 
@@ -112,6 +125,7 @@ namespace tcpClient
         private void bSend_Click(object sender, EventArgs e)
         {
             RequestLoop();
+            updateUI(Program.mchat.tChat.Text);
             Program.mchat.tChat.Text = "";
         }
 

@@ -67,7 +67,7 @@
             // 
             this.bConnect.Location = new System.Drawing.Point(639, 35);
             this.bConnect.Name = "bConnect";
-            this.bConnect.Size = new System.Drawing.Size(149, 48);
+            this.bConnect.Size = new System.Drawing.Size(149, 85);
             this.bConnect.TabIndex = 3;
             this.bConnect.Text = "Connect to Server";
             this.bConnect.UseVisualStyleBackColor = true;
