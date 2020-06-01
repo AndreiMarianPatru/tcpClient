@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace tcpClient
 {
@@ -19,6 +20,7 @@ namespace tcpClient
         public chat()
         {
             InitializeComponent();
+          
         }
 
         private static readonly Socket ClientSocket = new Socket
@@ -34,7 +36,7 @@ namespace tcpClient
         //    Exit();
         //}
 
-        private static void ConnectToServer()
+        private static async void ConnectToServer()
         {
             int attempts = 0;
 
@@ -58,11 +60,21 @@ namespace tcpClient
                 }
             }
 
-            updateUI("");
-
             updateUI("Connected");
-        }
+            Thread thread = new Thread(checkforresponse);
+            thread.Start();
+            
 
+
+        }
+        private async static void checkforresponse()
+        {
+            while (true)
+            {
+                Thread.Sleep(1);
+                ReceiveResponse();
+            }
+        }
         private static void RequestLoop()
         {
            // updateUI(@"<Type ""exit"" to properly disconnect client>");
@@ -70,7 +82,7 @@ namespace tcpClient
             if (ClientSocket.Connected)
             {
                 SendRequest();
-                ReceiveResponse();
+               // ReceiveResponse();
             }
             else
             {
@@ -114,6 +126,7 @@ namespace tcpClient
 
         private static void ReceiveResponse()
         {
+           
             var buffer = new byte[2048];
             int received = ClientSocket.Receive(buffer, SocketFlags.None);
             if (received == 0) return;
@@ -140,8 +153,17 @@ namespace tcpClient
         {
 
         }
+
+        public static bool ControlInvokeRequired(Control c, Action a)
+        {
+            if (c.InvokeRequired) c.Invoke(new MethodInvoker(delegate { a(); }));
+            else return false;
+
+            return true;
+        }
         private static void updateUI(string text)
         {
+            if (ControlInvokeRequired(Program.mchat.tConsole, () => updateUI(text))) return;
             Program.mchat.tConsole.AppendText(text);
             Program.mchat.tConsole.AppendText(Environment.NewLine);
         }
