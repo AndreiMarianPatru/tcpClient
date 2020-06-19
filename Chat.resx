@@ -117,4 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>/reg &lt;username(string)&gt; &lt;password(string)&gt; (no blankspaces allowed)
+/log &lt;username(string)&gt; &lt;password(string)&gt; (no blankspaces allowed)
+/join_room &lt;id(int)&gt;
+/msg_w &lt;username(string)&gt; (no blankspaces allowed) &lt;message(string)&gt;
+/msg &lt;id(int)&gt; &lt;message(string)&gt;
+/list_rooms
+/get time
+/exit</value>
+  </data>
 </root>
